@@ -8,7 +8,7 @@
 
 1. Клонируйте репозиторий:
 ```
-git@github.com:rozeswoesh-ui/Homework.git
+git clone https://github.com/rozeswoesh-ui/Homework.git
 ```
 
 ## Реализованные функции:
