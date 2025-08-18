@@ -1,17 +1,12 @@
 from datetime import datetime
 
 
-def filter_by_state(list_not_filtered: list, state: str = "EXECUTED") -> list:
+def filter_by_state(data: list[dict], state: str = "EXECUTED") -> list[dict]:
     """
     Функция которая фильтрует списки
     словарей по нужному параметру
     """
-    list_filtered = []
-    for dict_item in list_not_filtered:
-        for item in dict_item.values():
-            if item == state:
-                list_filtered.append(dict_item)
-    return list_filtered
+    return [item for item in data if item.get("state") == state]
 
 
 def sort_by_date(data: list[dict], reverse: bool = True) -> list[dict]:
