@@ -1,5 +1,9 @@
 def get_mask_card_number(card_number: str) -> str:
     """Функция для маскировки номера карты"""
+    # Преобразуем в строку, если передано число
+    if isinstance(card_number, int):
+        card_number = str(card_number)
+
     cleaned_number = card_number.replace(" ", "")
     if not cleaned_number.isdigit():
         raise ValueError("Номер карты должен состоять только из цифр")
@@ -16,13 +20,13 @@ def get_mask_card_number(card_number: str) -> str:
 
 
 def get_mask_account(account_number: str) -> str:
-    """Функция для маскировки номера счета"""
-    cleaned_number = account_number.replace(" ", "")
-    if not cleaned_number.isdigit():
-        raise ValueError("Номер счёта должен состоять только из цифр")
+    """
+    Возвращает маску номера аккаунта в формате **XXXX
+    """
+    account_number_str = str(account_number)
 
-    if len(cleaned_number) < 4:
-        raise ValueError("Номер счёта должен содержать минимум 4 цифры")
+    if len(account_number_str) != 20:
+        raise ValueError("Неверная длина номера")
 
-    masked_account = f"**{cleaned_number[-4:]}"
-    return masked_account
+    mask_account = "**" + account_number_str[-4:]
+    return mask_account
