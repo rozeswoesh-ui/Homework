@@ -65,10 +65,10 @@ def test_filter_by_state_canceled(data: list, state: str, expected: list) -> Non
     assert filter_by_state(data, state) == expected
 
 
-def test_filter_by_state_no_data():
+def test_filter_by_state_no_data() -> None:
     """
-        Тест маскировки пустой строки
-        """
+    Тест маскировки пустой строки
+    """
     result = filter_by_state([])
     assert result == []
 
@@ -85,7 +85,7 @@ def test_filter_by_state_no_data():
         ]
     ],
 )
-def test_sort_by_date_without_is_reverse(data, expected):
+def test_sort_by_date_without_is_reverse(data: list, expected: list) -> None:
     """
     Тест сортировки в порядке убывания.
     При одинаковых датах сортировка между двумя одинаковыми элементами с датой сохраняется
@@ -105,7 +105,7 @@ def test_sort_by_date_without_is_reverse(data, expected):
         ]
     ],
 )
-def test_sort_by_date_is_reverse(data, expected):
+def test_sort_by_date_is_reverse(data: list, expected: list) -> None:
     """
     Тест сортировки в порядке возростания
     При одинаковых датах сортировка между двумя одинаковыми элементами с датой сохраняется
@@ -113,29 +113,26 @@ def test_sort_by_date_is_reverse(data, expected):
     assert sort_by_date(data, False) == expected
 
 
-def test_sort_by_date_with_invalid_date_formats():
-    # Случай с некорректным форматом даты
+def test_sort_by_date_with_invalid_date_formats() -> None:
     invalid_format_data = [
         {"id": 1, "date": "2023-10-26T10:00:00.000000"},
-        {"id": 2, "date": "26/10/2023 10:00"},  # Некорректный формат
+        {"id": 2, "date": "26/10/2023 10:00"},
         {"id": 3, "date": "2023-10-27T08:00:00.000000"},
     ]
     with pytest.raises(ValueError, match="time data '26/10/2023 10:00' does not match format '%Y-%m-%dT%H:%M:%S.%f'"):
         sort_by_date(invalid_format_data)
 
-    # Случай с отсутствующим ключом "date"
     missing_key_data = [
         {"id": 1, "date": "2023-10-26T10:00:00.000000"},
-        {"id": 2, "timestamp": "2023-10-25T12:00:00.000000"},  # Отсутствует 'date'
+        {"id": 2, "timestamp": "2023-10-25T12:00:00.000000"},
         {"id": 3, "date": "2023-10-27T08:00:00.000000"},
     ]
-    with pytest.raises(KeyError, match="date"):  # Или другой код ошибки, если `x[data_key]` вызовет ее
+    with pytest.raises(KeyError, match="date"):
         sort_by_date(missing_key_data)
 
-    # Случай с датой, которая не может быть преобразована (например, неполная)
     incomplete_date_data = [
         {"id": 1, "date": "2023-10-26T10:00:00.000000"},
-        {"id": 2, "date": "2023-10-25T12:00:00"},  # Отсутствуют микросекунды
+        {"id": 2, "date": "2023-10-25T12:00:00"},
         {"id": 3, "date": "2023-10-27T08:00:00.000000"},
     ]
     with pytest.raises(
@@ -143,7 +140,6 @@ def test_sort_by_date_with_invalid_date_formats():
     ):
         sort_by_date(incomplete_date_data)
 
-    # Случай с пустым списком
-    empty_list_data = []
+    empty_list_data: list[dict] = []
     sorted_empty = sort_by_date(empty_list_data)
     assert sorted_empty == []
