@@ -107,9 +107,10 @@ print(sort_by_date(data_list, False))
 
 
 ## Реализованные модули тестирования:
+```
 1.test_mask - Тестирование для модуля masks.
 
 2.test_widget - Тестирование для модуля widget.
 
 3.test_processing - Тестировани для модуля processing.
-
+```
