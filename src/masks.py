@@ -1,5 +1,7 @@
 def get_mask_card_number(card_number: str) -> str:
-    """Функция для маскировки номера карты"""
+    """
+    Функция для маскировки номера карты
+    """
     # Преобразуем в строку, если передано число
     if isinstance(card_number, int):
         card_number = str(card_number)
