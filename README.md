@@ -33,6 +33,9 @@ git clone https://github.com/rozeswoesh-ui/Homework.git
 
 9. card_number_generator - Генерирует номер карты в формате XXXX XXXX XXXX XXXX в заданном диапозоне.
 
+10. read_transactions_csv - Cчитывания финансовые операций из CSV и выдает список словарей с транзакциями.
+
+11. read_transactions_xlsx - Cчитывания финансовые операций из XLSX и выдает список словарей с транзакциями.
 
 ## Примеры использования:
 
@@ -175,6 +178,22 @@ for card_number in card_number_generator(1, 5):
     0000 0000 0000 0005
 ```
 
+10. read_transactions_csv.
+```
+transactions_csv = read_transactions_csv(file_path)
+print("Транзакции из CSV:")
+for t in transactions_csv:
+   print(t)
+```
+
+11. read_transactions_xlsx.
+```
+transactions_xlsx = read_transactions_xlsx(file_path)
+print("Транзакции из XLSX:")
+for t in transactions_xlsx:
+   print(t)
+```
+
 ## Реализованые декораторы:
 1. log - автоматически регистрирует детали выполнения функций, такие как время вызова, имя функции, передаваемые аргументы, результат выполнения и информацию об ошибках.
 ```
@@ -192,5 +211,14 @@ my_function(1, 2)
 
 2.test_widget - Тестирование для модуля widget.
 
-3.test_processing - Тестировани для модуля processing.
+3.test_processing - Тестирование для модуля processing.
+
+4.test_decorators.py - Тестирование для модуля decorators.
+
+5.test_generators.py - Тестирование для модуля generators.
+
+6.test_utils.py - Тестирование для модуля utils.
+
+7.test_external.py - Тестирование для модуля external.
+
 ```
