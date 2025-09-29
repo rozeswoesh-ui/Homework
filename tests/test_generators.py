@@ -7,9 +7,7 @@ from src.generators import card_number_generator, filter_by_currency, transactio
 
 @pytest.fixture
 def sample_transactions() -> List[Dict]:
-    """
-    Фикстура с тестовыми транзакциями.
-    """
+    """Фикстура с тестовыми транзакциями."""
     return [
         {
             "id": 939719570,
@@ -51,9 +49,7 @@ def sample_transactions() -> List[Dict]:
 
 
 def test_filter_usd_transactions(sample_transactions):
-    """
-    Тест корректной фильтрации USD транзакций.
-    """
+    """Тест корректной фильтрации USD транзакций."""
     # Act
     usd_transactions = list(filter_by_currency(sample_transactions, "USD"))
 
@@ -66,9 +62,7 @@ def test_filter_usd_transactions(sample_transactions):
 
 
 def test_filter_rub_transactions(sample_transactions):
-    """
-    Тест корректной фильтрации RUB транзакций.
-    """
+    """Тест корректной фильтрации RUB транзакций."""
     # Act
     rub_transactions = list(filter_by_currency(sample_transactions, "RUB"))
 
@@ -79,9 +73,7 @@ def test_filter_rub_transactions(sample_transactions):
 
 
 def test_filter_eur_transactions_none_found(sample_transactions):
-    """
-    Тест фильтрации EUR транзакций (отсутствуют).
-    """
+    """Тест фильтрации EUR транзакций (отсутствуют)."""
     # Act
     eur_transactions = list(filter_by_currency(sample_transactions, "EUR"))
 
@@ -91,9 +83,7 @@ def test_filter_eur_transactions_none_found(sample_transactions):
 
 
 def test_empty_list(sample_transactions):
-    """
-    Тест обработки пустого списка транзакций.
-    """
+    """Тест обработки пустого списка транзакций."""
     # Act
     result = list(filter_by_currency([], "USD"))
 
@@ -103,9 +93,7 @@ def test_empty_list(sample_transactions):
 
 
 def test_no_matching_currency(sample_transactions):
-    """
-    Тест обработки списка без подходящей валюты.
-    """
+    """Тест обработки списка без подходящей валюты."""
     # Act
     result = list(filter_by_currency(sample_transactions, "JPY"))
 
@@ -115,9 +103,7 @@ def test_no_matching_currency(sample_transactions):
 
 
 def test_iterator_behavior(sample_transactions):
-    """
-    Тест поведения итератора (поочередная выдача).
-    """
+    """Тест поведения итератора (поочередная выдача)."""
     # Act
     usd_iterator = filter_by_currency(sample_transactions, "USD")
 
@@ -139,9 +125,7 @@ def test_iterator_behavior(sample_transactions):
 
 
 def test_case_sensitivity(sample_transactions):
-    """
-    Тест чувствительности к регистру.
-    """
+    """Тест чувствительности к регистру."""
     # Act
     result_lower = list(filter_by_currency(sample_transactions, "usd"))
     result_upper = list(filter_by_currency(sample_transactions, "USD"))
@@ -153,9 +137,7 @@ def test_case_sensitivity(sample_transactions):
 
 @pytest.mark.parametrize("currency,expected_count", [("USD", 3), ("RUB", 1), ("EUR", 0), ("GBP", 0), ("JPY", 0)])
 def test_parametrized_currency_filtering(sample_transactions, currency, expected_count):
-    """
-    Параметризованный тест для разных валют.
-    """
+    """Параметризованный тест для разных валют."""
     # Act
     result = list(filter_by_currency(sample_transactions, currency))
 
@@ -166,9 +148,7 @@ def test_parametrized_currency_filtering(sample_transactions, currency, expected
 
 
 def test_transaction_descriptions(sample_transactions):
-    """
-    Проверяет, что функция возвращает корректные описания.
-    """
+    """Проверяет, что функция возвращает корректные описания."""
     # Act
     result = list(transaction_descriptions(sample_transactions))
 
@@ -182,9 +162,7 @@ def test_transaction_descriptions(sample_transactions):
 
 
 def test_empty_transaction_descriptions():
-    """
-    Тестирует работу с пустым списком транзакций.
-    """
+    """Тестирует работу с пустым списком транзакций."""
     # Act
     result = list(transaction_descriptions(([])))
 
@@ -194,9 +172,7 @@ def test_empty_transaction_descriptions():
 
 
 def test_single_transaction_descriptions():
-    """
-    Тестирует работу с одной транзакцией.
-    """
+    """Тестирует работу с одной транзакцией."""
     transactions = [{"id": 1, "description": "Единственная транзакция", "amount": 100}]
 
     # Act
@@ -208,9 +184,7 @@ def test_single_transaction_descriptions():
 
 
 def test_card_number_generator():
-    """
-    Тест генерации номеров.
-    """
+    """Тест генерации номеров."""
     # Act
     generate = card_number_generator(1, 5)
     result = list(generate)
@@ -227,9 +201,7 @@ def test_card_number_generator():
 
 
 def test_extreme_values_card_number_generator():
-    """
-    Тест генерации крайних значений
-    """
+    """Тест генерации крайних значений"""
     # Act
     generate = card_number_generator(9999999999999995, 9999999999999999)
     result = list(generate)
@@ -246,33 +218,25 @@ def test_extreme_values_card_number_generator():
 
 
 def test_wrong_card_number_generator():
-    """
-    Тест генерации номеров c некоректными значениями.
-    """
+    """Тест генерации номеров c некоректными значениями."""
     with pytest.raises(ValueError):
         list(card_number_generator(10, 5))
 
 
 def test_invalid_start_card_number_generator():
-    """
-    Тест некорректного начального значения.
-    """
+    """Тест некорректного начального значения."""
     with pytest.raises(ValueError):
         list(card_number_generator(0, 5))
 
 
 def test_invalid_end_card_number_generator():
-    """
-    Тест некорректного конечного значения.
-    """
+    """Тест некорректного конечного значения."""
     with pytest.raises(ValueError):
         list(card_number_generator(1, 10000000000000000))
 
 
 def test_default_card_number_generator():
-    """
-    Тест работы с параметрами по умолчанию.
-    """
+    """Тест работы с параметрами по умолчанию."""
     # Act - получаем первые 3 номера из полного диапазона
     gen = card_number_generator()
     first_three = [next(gen) for _ in range(3)]

@@ -1,3 +1,4 @@
+
 import pytest
 
 from src.widget import get_date, mask_account_card
@@ -37,9 +38,17 @@ def test_mask_account_card(value: str, expected: str) -> None:
     "value, expected",
     [
         ("2024-03-11T02:26:18.671407", "11.03.2024"),
-        ("2024-03-11", "11.03.2024"),
-        ("2024-03-11", "11.03.2024"),
+        ("2024/03/11", "11.03.2024"),
+        ("2024.03.11", "11.03.2024"),
     ],
 )
 def test_get_date(value: str, expected: str) -> None:
     assert get_date(value) == expected
+
+
+def test_get_date_empty() -> None:
+    assert get_date("") == "Дата не может быть пустой"
+
+
+def test_get_date_wrong_format() -> None:
+    assert get_date("2024-Март-11") == "2024-Март-11"

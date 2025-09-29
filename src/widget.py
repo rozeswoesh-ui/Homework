@@ -1,36 +1,44 @@
+from datetime import datetime
+
 from src.masks import get_mask_account, get_mask_card_number
 
 
-def mask_account_card(account_info: str) -> str:
-    """Функция обработки информации о картах и о счетах"""
-    # Проверка на пустую строку и некорректные данные ДО любой обработки
-    if not account_info or not isinstance(account_info, str) or account_info.strip() == "":
-        return "Информация неверна"
+def mask_account_card(account_card: str) -> str:
+    """
+    Обрабатывает номер карты или номер счёта
+    """
+    is_card_number = False
+    if "счет" not in account_card.lower().replace("ё", "e"):
+        is_card_number = True
 
-    if account_info.startswith("Счет"):
-        # Маскировка счета
-        parts = account_info.split()
-        # Проверяем длину ДО обращения к элементам
-        if len(parts) < 2:
-            return "Информация неверна"
-        try:
-            return f"Счет {get_mask_account(parts[-1])}"
-        except ValueError:
-            return "Информация неверна"
-    else:
-        # Маскировка карты
-        parts = account_info.rsplit(" ", 1)
-        # Проверяем длину ДО обращения к elements[1]
-        if len(parts) < 2:
-            return "Информация неверна"
-        try:
-            return f"{parts[0]} {get_mask_card_number(parts[1])}"
-        except ValueError:
-            return "Информация неверна"
+    account_card_arr = account_card.split()
+    prefix_number = ""
+    for word in account_card_arr:
+        if word.isalpha():
+            prefix_number = prefix_number + " " + word
+        if word.isdigit():
+            if is_card_number:
+                card_number = get_mask_card_number(int(word))
+                return prefix_number[1:] + " " + card_number
+            else:
+                account_number = get_mask_account((int(word)))
+                return prefix_number[1:] + " " + account_number
+    return "Информация неверна"
 
 
-def get_date(date_str: str) -> str:
-    """Преобразует дату из формата '2024-03-11T02:26:18.671407' в '11.03.2024'"""
-    date_part = date_str[:10]
-    year, month, day = date_part.split('-')
-    return f'{day}.{month}.{year}'
+def get_date(date: str) -> str:
+    """
+    Возвращает дату из формата ГГГГ-ММ-ДД в ДД.ММ.ГГГГ
+    """
+    if len(date) <= 1:
+        return "Дата не может быть пустой"
+    year = date[:4]
+    month = date[5:7]
+    day = date[8:10]
+    new_date = day + "." + month + "." + year
+
+    try:
+        datetime.strptime(new_date, "%d.%m.%Y")
+        return new_date
+    except ValueError:
+        return date
