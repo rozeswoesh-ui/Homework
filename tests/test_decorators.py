@@ -10,9 +10,7 @@ LOG_FILENAME = "test_log.txt"
 
 @pytest.fixture(autouse=True)
 def teardown_method():
-    """
-    Очистка после каждого теста
-    """
+    """Очистка после каждого теста"""
     if os.path.exists(LOG_FILENAME):
         os.remove(LOG_FILENAME)
     yield
@@ -21,9 +19,7 @@ def teardown_method():
 
 
 def test_log_to_console_success(capsys):
-    """
-    Тест логирования успешного выполнения в консоль
-    """
+    """Тест логирования успешного выполнения в консоль"""
 
     @log()
     def add(a, b):
@@ -43,9 +39,7 @@ def test_log_to_console_success(capsys):
 
 
 def test_log_to_file_success():
-    """
-    Тест логирования успешного выполнения в файл
-    """
+    """Тест логирования успешного выполнения в файл"""
 
     @log(filename=LOG_FILENAME)
     def add(a, b):

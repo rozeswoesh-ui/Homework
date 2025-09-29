@@ -1,6 +1,8 @@
-import pytest
 from collections import Counter
-from src.processing import filter_by_state, sort_by_date, process_bank_search, process_bank_operations
+
+import pytest
+
+from src.processing import filter_by_state, process_bank_operations, process_bank_search, sort_by_date
 
 
 @pytest.fixture()
@@ -282,6 +284,14 @@ def test_case_sensitivity(process_bank_operations_data):
     result = process_bank_operations(process_bank_operations_data, categories)
 
     # Должны быть 0 совпадений, так как регистр разный
+    assert result == Counter()
+    assert len(result) == 0
+
+
+def test_empty_data_2():
+    """Тест с пустым списком операций"""
+    categories = ["Супермаркет", "Аптека"]
+    result = process_bank_operations([], categories)
     assert result == Counter()
     assert len(result) == 0
 
